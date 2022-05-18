@@ -1,15 +1,22 @@
+import { useState } from 'react';
 import {
-    Flex, 
+    Flex,
+    Heading,
     Box,
-    Heading, Text,
+    Text,
     Icon, IconButton,
     Table, Thead, Tbody, Tr, Th, Td,
-    Divider
-} from '@chakra-ui/react'
-import { FiChevronUp, FiChevronDown, FiCalendar } from 'react-icons/fi';
+    FormControl, FormLabel, 
+    Divider, Link, Button,
+    Input, 
+    HStack,
+    Radio, RadioGroup,
+    NumberInput, NumberInputField, propNames
+} from '@chakra-ui/react';
+import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
+import { MdClose } from 'react-icons/md';
 import MyChart from "./myChart";
-import { useState } from 'react';
-
+import { Formik, Form } from 'formik';
 
 export default function PortfolioView() {
     const [ showActive, changeShowActive ] = useState('hide');
