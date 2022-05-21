@@ -1,6 +1,6 @@
 import SideBar from '../components/sidebar';
 import DashHome from '../components/viewDashboard';
-import TabContext from '../components/TabContext';
+import TabContext from '../contexts/TabContext';
 import { useState } from 'react';
 
 export default function Dashboard({ children }) {

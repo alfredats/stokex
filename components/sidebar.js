@@ -12,7 +12,7 @@ import {
     FiLogOut
 } from 'react-icons/fi';
 import { useContext } from 'react';
-import TabContext from './TabContext';
+import TabContext from '../contexts/TabContext';
 
 
 export default function SideBar({children}) {
@@ -59,7 +59,7 @@ export default function SideBar({children}) {
                                 className='sidebar-items'
                             >
                                 <Link
-                                    href="/"
+                                    href="/dashboard"
                                     _hover={{ textDecor: 'none' }} 
                                     display="flex"
                                 >
@@ -96,10 +96,15 @@ export default function SideBar({children}) {
                                 </Link>
                             </Flex>
                             <Flex className='sidebar-items'>
-                                <Link>
-                                    <Icon as={FiLogOut} fontSize='2xl' />
-                                </Link>
-                                <Link _hover={{ textDecor: 'none' }}>
+                                <Link
+                                    href="/" 
+                                    _hover={{ textDecor: 'none'}}
+                                    display="flex"
+                                >
+                                    <Icon 
+                                        as={FiLogOut} 
+                                        fontSize='2xl' 
+                                    />
                                     <Text>Log off</Text>
                                 </Link>
                             </Flex>

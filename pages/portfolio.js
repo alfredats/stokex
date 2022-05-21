@@ -1,7 +1,7 @@
 import { Flex, Heading } from '@chakra-ui/react'
 import SideBar from '../components/sidebar';
 import PortfolioView from '../components/viewPortfolio';
-import TabContext from '../components/TabContext';
+import TabContext from '../contexts/TabContext';
 import { useState } from 'react';
 
 const Portfolio = () => {

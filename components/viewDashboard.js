@@ -16,6 +16,16 @@ import {
 import { FiChevronUp, FiChevronDown, FiCalendar } from 'react-icons/fi';
 import { MdClose } from 'react-icons/md';
 import { Formik, Form } from 'formik';
+import axios from "axios";
+
+
+// export async function getServerSideProps() {
+//     const ENDPOINT = process.env.CMS_HOST + process.env.CMS_DASHBOARD_ENDPOINT;
+//     const payload = {
+//     };
+//     const res = await axios.post(ENDPOINT);
+// }
+
 
 
 export default function DashHome() {
