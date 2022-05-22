@@ -100,6 +100,7 @@ export default function SideBar({children}) {
                                     href="/" 
                                     _hover={{ textDecor: 'none'}}
                                     display="flex"
+                                    onClick={() => { window.localStorage.removeItem("sessionKey"); }}
                                 >
                                     <Icon 
                                         as={FiLogOut} 

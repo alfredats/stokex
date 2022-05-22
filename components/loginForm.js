@@ -6,19 +6,22 @@ import SessionContext from '../contexts/SessionContext';
 
 
 export default function LoginForm() {
-    const { setSessKey, appRouter } = useContext(SessionContext);
+    const { appRouter } = useContext(SessionContext);
     const [failedAuth, setFailedAuth] = useState(false);
 
     async function authLogin({username, password}) {
         const ENDPOINT = process.env.NEXT_PUBLIC_CMS_HOST + process.env.NEXT_PUBLIC_CMS_AUTHLOGIN_ENDPOINT;
-            let retVal;
-            const response = await axios.post(ENDPOINT, {
+            const sessionKey = await axios.post(ENDPOINT, {
                     username: username,
                     password: password
-                })
-            const { sessionKey } = response.data;
-            retVal = sessionKey;
-            return retVal;
+                }).then((response) => {
+                    const { sessionKey } = response.data;
+                    return sessionKey;
+                }).catch((error) => {
+                    console.log(error);
+                    return;
+                });
+            return sessionKey;
     }
 
     return (
@@ -26,13 +29,12 @@ export default function LoginForm() {
         <Formik
             initialValues={{ username: '', password: '' }}
             onSubmit = {async (values, actions) => {
-                resp = 
                 setTimeout(()=> {
-                    const sessionKey = authLogin(values) 
-                    sessionKey.then((key) => {
-                        setSessKey(key);
+                    const keyPromise = authLogin(values) 
+                    keyPromise.then((key) => {
+                        window.localStorage.setItem("sessionKey", key);
+                        console.log(window.localStorage.getItem("sessionKey"));
                         actions.setSubmitting(false);
-                        console.log(key);
                         appRouter.push("/dashboard");
                     }).catch(() => {
                         setFailedAuth(true);

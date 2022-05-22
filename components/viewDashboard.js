@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState, useContext } from 'react';
 import {
     Flex,
     Heading,
@@ -16,23 +16,48 @@ import {
 import { FiChevronUp, FiChevronDown, FiCalendar } from 'react-icons/fi';
 import { MdClose } from 'react-icons/md';
 import { Formik, Form } from 'formik';
+
+import SessionContext from '../contexts/SessionContext';
 import axios from "axios";
-
-
-// export async function getServerSideProps() {
-//     const ENDPOINT = process.env.CMS_HOST + process.env.CMS_DASHBOARD_ENDPOINT;
-//     const payload = {
-//     };
-//     const res = await axios.post(ENDPOINT);
-// }
 
 
 
 export default function DashHome() {
     const [watchList, changeWatchList] = useState('hide');
     const [marketSummary, changeMarketSummary] = useState('hide');
-    const [value, changeValue] = useState(1);
     const [quickBuy, changeQuickBuy] = useState(null);
+
+    const { appRouter } = useContext(SessionContext);
+    const [ data, setData ] = useState(null);
+    const [ isLoading, setLoading ] = useState(false)
+    useEffect(() => {
+        setLoading(true);
+        const sessionKey = window.localStorage.getItem("sessionKey");
+        console.log(">>> sessionKey: " + sessionKey);
+
+        if (!sessionKey) {
+            appRouter.push("/");
+            return;
+        }
+        const ENDPOINT = process.env.NEXT_PUBLIC_CMS_HOST + process.env.NEXT_PUBLIC_CMS_DASHBOARD_ENDPOINT;
+        axios({
+            url: ENDPOINT,
+            method:'get',
+            headers: {
+                'x-session-key': sessionKey
+            }
+        }).then((response) => {
+            setData(response.data);
+            setLoading(false);
+        }).catch((error) => {
+            console.log(error);
+            appRouter.push("/");
+        })
+    }, [appRouter])
+    
+    if (isLoading) { return <Heading>Loading...</Heading> }
+    if (!data) { return <Heading>Error!</Heading> }
+
     return (
         <Flex w='100%'>
             {/* column 2 */}
@@ -43,7 +68,7 @@ export default function DashHome() {
                 overflow={'auto'}
                 minH="100vh"
             >
-                <Heading fontWeight={'normal'} mb={4} letterSpacing='tight'>Welcome back, <Flex fontWeight={'bold'} display='inline-flex'>Maysie</Flex></Heading>
+                <Heading fontWeight={'normal'} mb={4} letterSpacing='tight'>Welcome back, <Flex fontWeight={'bold'} display='inline-flex'>{data.name}</Flex></Heading>
                 <Flex flexDir={'row'} justifyContent='space-between'>
                     <Box
                         border={'1px'}
@@ -57,7 +82,7 @@ export default function DashHome() {
                         <Flex p='3' ml='2'>
                             <Flex flexDir='column' justifyContent={'space-between'}>
                                 <Text color='gray' fontSize='sm'>Portfolio Value</Text>
-                                <Text fontWeight={'bold'} fontSize='2xl'>$5,750.29</Text>
+                                <Text fontWeight={'bold'} fontSize='2xl'>${data.monies.portfolioValue}</Text>
                             </Flex>
                         </Flex>
                     </Box>
@@ -73,7 +98,7 @@ export default function DashHome() {
                         <Flex p='3' ml='2'>
                             <Flex flexDir='column' justifyContent={'space-between'}>
                                 <Text color='gray' fontSize='sm'>Available Funds</Text>
-                                <Text fontWeight={'bold'} fontSize='2xl'>$771.82</Text>
+                                <Text fontWeight={'bold'} fontSize='2xl'>${data.monies.availableFunds}</Text>
                             </Flex>
                         </Flex>
                     </Box>

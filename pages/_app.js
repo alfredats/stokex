@@ -7,10 +7,7 @@ import TabContext from '../contexts/TabContext';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const [sessKey, setSessKey] = useState('');
   const session = {
-    sessionKey: sessKey,
-    setSessKey,
     appRouter: router
   }
   return (
