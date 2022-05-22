@@ -27,36 +27,6 @@ export default function PortfolioView() {
     const [ modifyOrder, changeModifyOrder ] = useState(null);
     const [ value, changeValue ] = useState(1);
 
-    const { appRouter } = useContext(SessionContext);
-    const [ data, setData ] = useState(null);
-    const [ isLoading, setLoading ] = useState(false)
-    useEffect(() => {
-        setLoading(true);
-        console.log(window.localStorage.getItem("sessionKey"));
-        const sessionKey = window.localStorage.getItem("sessionKey");
-
-        if (!sessionKey) {
-            appRouter.push("/");
-            return;
-        }
-        const ENDPOINT = process.env.NEXT_PUBLIC_CMS_HOST + process.env.NEXT_PUBLIC_CMS_PORTFOLIO_ENDPOINT;
-        axios({
-            url: ENDPOINT,
-            method:'get',
-            headers: {
-                'x-session-key': sessionKey
-            }
-        }).then((response) => {
-            setData(response.data);
-            setLoading(false);
-        }).catch((error) => {
-            console.log(error);
-            appRouter.push("/");
-        })
-    }, [appRouter])
-    
-    if (isLoading) { return <Heading>Loading...</Heading>}
-    if (!data) { return <Heading>Error!</Heading>}
     return (
         <Flex w='100%'>
             <Flex 

@@ -15,8 +15,7 @@ import { useContext } from 'react';
 import TabContext from '../contexts/TabContext';
 
 
-export default function SideBar({children}) {
-    const { activeTab, changeActiveTab } = useContext(TabContext);
+export default function SideBar({ name, activeTab, children}) {
     return (
         <Flex
             h='100vh'
@@ -113,8 +112,16 @@ export default function SideBar({children}) {
                     </Flex>
 
                     <Flex flexDir="column" alignItems="center" mb={10} mt={5}>
-                        <Avatar my={2} src="avatar-1.jpg" />
-                        <Text>Maysie Sim</Text>
+                        { name === 'Maysie Sim' && 
+                            <Avatar my={2} src="avatar-1.jpg" />
+                        }
+                        { name == 'Claire Ang' &&
+                            <Avatar my={2} src="avatar-2.jpg" />
+                        }
+                        { name == 'Gerald Tan' &&
+                            <Avatar my={2} src="avatar-3.jpg" />
+                        }
+                        <Text>{name}</Text>
                     </Flex>
                 </Flex>
             </Flex>

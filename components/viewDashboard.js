@@ -24,41 +24,9 @@ import QuickBuyContext from '../contexts/QuickBuyContext';
 import axios from "axios";
 
 
-export default function DashHome() {
+export default function DashHome(props) {
     const { quickBuy, changeQuickBuy } = useContext(QuickBuyContext);
-    const [watchList, changeWatchList] = useState('hide');
-    const [marketSummary, changeMarketSummary] = useState('hide');
-
-    const { appRouter } = useContext(SessionContext);
-    const [ data, setData ] = useState(null);
-    const [ isLoading, setLoading ] = useState(false)
-    useEffect(() => {
-        setLoading(true);
-        const sessionKey = window.localStorage.getItem("sessionKey");
-        console.log(">>> sessionKey: " + sessionKey);
-
-        if (!sessionKey) {
-            appRouter.push("/");
-            return;
-        }
-        const ENDPOINT = process.env.NEXT_PUBLIC_CMS_HOST + process.env.NEXT_PUBLIC_CMS_DASHBOARD_ENDPOINT;
-        axios({
-            url: ENDPOINT,
-            method:'get',
-            headers: {
-                'x-session-key': sessionKey
-            }
-        }).then((response) => {
-            setData(response.data);
-            setLoading(false);
-        }).catch((error) => {
-            console.log(error);
-            appRouter.push("/");
-        })
-    }, [appRouter])
-    
-    if (isLoading) { return <Heading>Loading...</Heading> }
-    if (!data) { return <Heading>Error!</Heading> }
+    console.log(props);
 
     return (
         <Flex w='100%'>
@@ -70,7 +38,7 @@ export default function DashHome() {
                 overflow={'auto'}
                 minH="100vh"
             >
-                <Heading fontWeight={'normal'} mb={4} letterSpacing='tight'>Welcome back, <Flex fontWeight={'bold'} display='inline-flex'>{data.name}</Flex></Heading>
+                <Heading fontWeight={'normal'} mb={4} letterSpacing='tight'>Welcome back, <Flex fontWeight={'bold'} display='inline-flex'>{props.data.name}</Flex></Heading>
                 <Flex flexDir={'row'} justifyContent='space-between'>
                     <Box
                         border={'1px'}
@@ -84,7 +52,7 @@ export default function DashHome() {
                         <Flex p='3' ml='2'>
                             <Flex flexDir='column' justifyContent={'space-between'}>
                                 <Text color='gray' fontSize='sm'>Portfolio Value</Text>
-                                <Text fontWeight={'bold'} fontSize='2xl'>${data.monies.portfolioValue}</Text>
+                                <Text fontWeight={'bold'} fontSize='2xl'>${props.data.monies.portfolioValue}</Text>
                             </Flex>
                         </Flex>
                     </Box>
@@ -100,7 +68,7 @@ export default function DashHome() {
                         <Flex p='3' ml='2'>
                             <Flex flexDir='column' justifyContent={'space-between'}>
                                 <Text color='gray' fontSize='sm'>Available Funds</Text>
-                                <Text fontWeight={'bold'} fontSize='2xl'>${data.monies.availableFunds}</Text>
+                                <Text fontWeight={'bold'} fontSize='2xl'>${props.data.monies.availableFunds}</Text>
                             </Flex>
                         </Flex>
                     </Box>
@@ -108,8 +76,8 @@ export default function DashHome() {
                 <Divider mt={'8'}/>
 
                 {/* watchlist */}
-                <StockTable title="Your Watchlist" tableData={data.market} />
-                <StockTable title="Market Summary" tableData={data.market} />
+                <StockTable title="Your Watchlist" tableData={props.data.watchList} />
+                <StockTable title="Market Summary" tableData={props.data.market} />
             </Flex>
 
 
