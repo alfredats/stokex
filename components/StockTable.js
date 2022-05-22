@@ -16,8 +16,8 @@ export default function StockTable(props) {
     const date= new Date();
 
     const dateString = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
-    if (!props) { return <Text letterSpacing='tight'>Error loading stock table</Text>}
     const [tableExtra, changeTableExtra] = useState('hide');
+    if (!props) { return <Text letterSpacing='tight'>Error loading stock table</Text>}
     console.log(props);
 
     return (
@@ -39,13 +39,13 @@ export default function StockTable(props) {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {props.tableData.slice(0,5).map((rowData) => {
-                            return <StockTableRow {...rowData} />
+                        {props.tableData.slice(0,5).map((rowData, index) => {
+                            return <StockTableRow key={index} {...rowData} />
                         })}
                     { tableExtra == 'show' && 
                         <>
-                        {props.tableData.slice(5).map((rowData) => {
-                            return <StockTableRow {...rowData} />
+                        {props.tableData.slice(5).map((rowData, index) => {
+                            return <StockTableRow key={index} {...rowData} />
                         })}
                         </>
                     }
