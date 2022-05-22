@@ -3,14 +3,17 @@ import DashHome from '../components/viewDashboard';
 
 import { useState } from 'react';
 import TabContext from '../contexts/TabContext';
+import QuickBuyContext from '../contexts/QuickBuyContext';
 
 export default function Dashboard({ children }) {
     const [activeTab, changeActiveTab] = useState("home");
-    const value = { activeTab, changeActiveTab };
+    const [quickBuy, changeQuickBuy ] = useState(null);
     return (
-        <TabContext.Provider value={value}>
+        <TabContext.Provider value={{ activeTab, changeActiveTab }}>
             <SideBar>
-                <DashHome />
+                <QuickBuyContext.Provider value={{quickBuy, changeQuickBuy}}>
+                    <DashHome />
+                </QuickBuyContext.Provider>
             </SideBar>
         </TabContext.Provider>
         );

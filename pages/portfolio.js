@@ -9,9 +9,9 @@ const Portfolio = () => {
     const value = { activeTab, changeActiveTab };
     return (
         <TabContext.Provider value={value}>
-        <SideBar>
-        <PortfolioView />
-        </SideBar>
+            <SideBar>
+                <PortfolioView />
+            </SideBar>
         </TabContext.Provider>
         )
     };
