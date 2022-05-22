@@ -1,14 +1,12 @@
 import { Formik, Form, Field } from 'formik';
 import { FormControl, Input, Button, Center, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import SessionContext from '../contexts/SessionContext';
 
 
 export default function LoginForm() {
-    const router = useRouter();
-    const sessContext = useContext(SessionContext);
+    const { setSessKey, appRouter } = useContext(SessionContext);
     const [failedAuth, setFailedAuth] = useState(false);
 
     async function authLogin({username, password}) {
@@ -31,17 +29,15 @@ export default function LoginForm() {
                 resp = 
                 setTimeout(()=> {
                     const sessionKey = authLogin(values) 
-                    sessionKey.then(() => {
-                        sessContext.setSessKey(sessionKey);
+                    sessionKey.then((key) => {
+                        setSessKey(key);
                         actions.setSubmitting(false);
-                        console.log(sessionKey);
-                        router.push("/dashboard");
+                        console.log(key);
+                        appRouter.push("/dashboard");
                     }).catch(() => {
                         setFailedAuth(true);
                     });
                 })
-
-
             }}
         >
             { (props) => (

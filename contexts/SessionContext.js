@@ -1,8 +1,5 @@
 import { createContext } from 'react';
 
-const SessionContext = createContext({
-    sessionKey: '',
-    setSessKey: () => {}
-}); 
+const SessionContext = createContext(); 
 
 export default SessionContext;

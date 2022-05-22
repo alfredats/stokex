@@ -1,7 +1,8 @@
 import {
     Flex,
     Heading,
-    FormControl, FormLabel, Input
+    FormControl, FormLabel, Input,
+    Text
 } from '@chakra-ui/react';
 import LoginForm from '../components/loginForm';
 
@@ -38,7 +39,7 @@ export default function Login() {
                         fontStyle='light'
                         color='white'
                     >
-                        Don't FOMO your way to retirement.
+                        <Text>Don&apos;t FOMO your way to retirement.</Text>
                     </Heading>
                 </Flex>
                 <Flex
