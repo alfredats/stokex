@@ -36,10 +36,12 @@ const Portfolio = () => {
     
     if (isLoading) { return <></>}
     if (!data) { return <></>}
+    console.log(">>> portfolio page data");
+    console.log(data);
 
     return (
         <SideBar activeTab='portfolio' name={data.name}>
-            <PortfolioView />
+            <PortfolioView {...data}/>
         </SideBar>
         )
     };

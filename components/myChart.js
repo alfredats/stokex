@@ -67,7 +67,47 @@ export const data = {
   ],
 };
 
-const MyChart = () => {
+function timeseriesTransform(timeseries) {
+  const transformed = [];
+  const valueData = [];
+  const valueLabels = [];
+  Object.keys(timeseries).map((key) => {
+    const entry = timeseries[key];
+    const dateLong = new Date(entry.timestampCreated);
+    entry.timestampParsed = dateLong
+    entry.date = {
+      day: dateLong.getDate(), 
+      month: dateLong.getMonth(), 
+      year: dateLong.getFullYear() 
+    };
+    transformed.push(entry);
+  })
+  transformed.sort((entry1, entry2) => { return (entry1.timestampParsed - entry2.timestampParsed); });
+  transformed.map((elem) => {
+    valueData.push(elem.portfolioValue);
+    valueLabels.push(labels[elem.date.month]);
+  })
+
+  return { valueData, valueLabels };
+} 
+
+const MyChart = (timeSeries) => {
+    const { valueData , valueLabels }= timeseriesTransform(timeSeries);
+    
+  const data = {
+    labels: valueLabels,
+    datasets: [
+      {
+        label: 'Portfolio Value',
+        data: valueData,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  };
+
+
+
     return (
         <Line options={options} data={data} />
     )

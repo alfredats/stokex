@@ -11,6 +11,7 @@ import { useState } from 'react';
 import StockTableRow from './StockTableRow';
 
 
+
 export default function StockTable(props) {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const date= new Date();

@@ -20,12 +20,12 @@ import { Formik, Form } from 'formik';
 
 import axios from 'axios';
 import SessionContext from '../contexts/SessionContext';
+import OrderTable from './OrderTable';
 
 
-export default function PortfolioView() {
+export default function PortfolioView(data) {
     const [ showActive, changeShowActive ] = useState('hide');
     const [ modifyOrder, changeModifyOrder ] = useState(null);
-    const [ value, changeValue ] = useState(1);
 
     return (
         <Flex w='100%'>
@@ -57,7 +57,7 @@ export default function PortfolioView() {
                             <Flex p='3' ml='2'>
                                 <Flex flexDir='column' justifyContent={'space-between'}>
                                     <Text color='gray' fontSize='sm'>Portfolio Value</Text>
-                                    <Text fontWeight={'bold'} fontSize='2xl'>$5,750.29</Text>
+                                    <Text fontWeight={'bold'} fontSize='2xl'>${data.monies.latest.portfolioValue}</Text>
                                 </Flex>
                             </Flex>
                         </Box>
@@ -80,162 +80,14 @@ export default function PortfolioView() {
                     </Flex>
             
                     <Flex mt={'5'}>
-                        <MyChart />
+                        <MyChart {...data.monies.timeSeries} />
                     </Flex>
                 </Flex>
                 <Divider mt={'8'} />
 
                 {/* order info */}
-                <Flex justifyContent={'space-between'} mt={8}>
-                    <Flex align={'flex-end'}>
-                        <Heading as='h2' size='lg' letterSpacing='tight'>Orders</Heading>
-                    </Flex>
-                </Flex>
-                <Flex flexDir='column'>
-                    <Flex overflow='auto'>
-                        <Table variant='unstyled' mt={4}>
-                            <Thead>
-                                <Tr>
-                                    <Th hidden='true'>OrderID</Th>
-                                    <Th>Type</Th>
-                                    <Th>Ticker</Th>
-                                    <Th isNumeric>Price</Th>
-                                    <Th isNumeric>Quantity</Th>
-                                    <Th>Status</Th>
-                                    <Th>Created</Th>
-                                    <Th>Updated</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                <Tr className='stockTableRow'>
-                                    <Td hidden>1</Td>
-                                    <Td>Bid</Td>
-                                    <Td>
-                                        <Flex>
-                                            <Flex flexDir={'column'} >
-                                                <Heading size='sm' letterSpacing={'tight'}>AAPL</Heading>
-                                                <Text fontSize='sm' color='gray'>Apple Inc.</Text>
-                                            </Flex>
-                                        </Flex>
-                                    </Td>
-                                    <Td>
-                                        <Text>$160.01</Text>
-                                    </Td>
-                                    <Td>
-                                        <Text isNumeric>10</Text>
-                                    </Td>
-                                    <Td>
-                                        Created
-                                    </Td>
-                                    <Td>
-                                        2022-01-01 08:10:55
-                                    </Td>
-                                    <Td>
-                                        2022-05-13 12:10:55
-                                    </Td>
-                                </Tr>
-                                <Tr className='stockTableRow'>
-                                    <Td>Bid</Td>
-                                    <Td>
-                                        <Flex>
-                                            <Flex flexDir={'column'} >
-                                                <Heading size='sm' letterSpacing={'tight'}>AAPL</Heading>
-                                                <Text fontSize='sm' color='gray'>Apple Inc.</Text>
-                                            </Flex>
-                                        </Flex>
-                                    </Td>
-                                    <Td>
-                                        <Text>$160.01</Text>
-                                    </Td>
-                                    <Td>
-                                        <Text isNumeric>10</Text>
-                                    </Td>
-                                    <Td>
-                                        Created
-                                    </Td>
-                                    <Td>
-                                        2022-01-01 08:10:55
-                                    </Td>
-                                    <Td>
-                                        2022-05-13 12:10:55
-                                    </Td>
-                                </Tr>
-                                { showActive == 'show' &&
-                                    <>
-                                <Tr className='stockTableRow'>
-                                    <Td>Bid</Td>
-                                    <Td>
-                                        <Flex>
-                                            <Flex flexDir={'column'} >
-                                                <Heading size='sm' letterSpacing={'tight'}>AAPL</Heading>
-                                                <Text fontSize='sm' color='gray'>Apple Inc.</Text>
-                                            </Flex>
-                                        </Flex>
-                                    </Td>
-                                    <Td>
-                                        <Text>$160.01</Text>
-                                    </Td>
-                                    <Td>
-                                        <Text isNumeric>10</Text>
-                                    </Td>
-                                    <Td>
-                                        Created
-                                    </Td>
-                                    <Td>
-                                        2022-01-01 08:10:55
-                                    </Td>
-                                    <Td>
-                                        2022-05-13 12:10:55
-                                    </Td>
-                                </Tr>
-                                <Tr className='stockTableRow'>
-                                    <Td>Bid</Td>
-                                    <Td>
-                                        <Flex>
-                                            <Flex flexDir={'column'} >
-                                                <Heading size='sm' letterSpacing={'tight'}>AAPL</Heading>
-                                                <Text fontSize='sm' color='gray'>Apple Inc.</Text>
-                                            </Flex>
-                                        </Flex>
-                                    </Td>
-                                    <Td>
-                                        <Text>$160.01</Text>
-                                    </Td>
-                                    <Td>
-                                        <Text isNumeric>10</Text>
-                                    </Td>
-                                    <Td>
-                                        Created
-                                    </Td>
-                                    <Td>
-                                        2022-01-01 08:10:55
-                                    </Td>
-                                    <Td>
-                                        2022-05-13 12:10:55
-                                    </Td>
-                                </Tr>
-                                    </>
-                                }
-                            </Tbody>
-                        </Table>
-                    </Flex>
-                    <Flex align='center'>
-                        <Divider />
-                        <Flex>
-                            <IconButton icon={ showActive == 'show' ? <FiChevronUp /> : <FiChevronDown />} 
-                                onClick={() => {
-                                    if ( showActive == 'show') {
-                                        changeShowActive('hide');
-                                    } else {
-                                        changeShowActive('show');
-                                    }
-                                }}
-
-                            />
-                        </Flex>
-                        <Divider />
-                    </Flex>
-                </Flex>
+                <OrderTable title='Active Orders' data={data.orders.active} />
+                <OrderTable title='Completed Orders' data={data.orders.completed} />
             </Flex>
             
 
