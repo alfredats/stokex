@@ -1,29 +1,24 @@
 import SideBar from '../components/sidebar';
-import DashHome from '../components/viewDashboard';
+import PortfolioView from '../components/viewPortfolio';
 
 import axios from 'axios';
-
-import { useContext, useEffect, useState } from 'react';
-import QuickBuyContext from '../contexts/QuickBuyContext';
+import { useEffect, useState, useContext } from 'react';
 import SessionContext from '../contexts/SessionContext';
 
-
-export default function Dashboard({ children }) {
+const Portfolio = () => {
     const { appRouter } = useContext(SessionContext);
-    const [quickBuy, changeQuickBuy ] = useState(null);
     const [ data, setData ] = useState(null);
     const [ isLoading, setLoading ] = useState(false)
-
     useEffect(() => {
         setLoading(true);
+        console.log(window.localStorage.getItem("sessionKey"));
         const sessionKey = window.localStorage.getItem("sessionKey");
-        console.log(">>> sessionKey: " + sessionKey);
 
         if (!sessionKey) {
             appRouter.push("/");
             return;
         }
-        const ENDPOINT = process.env.NEXT_PUBLIC_CMS_HOST + process.env.NEXT_PUBLIC_CMS_DASHBOARD_ENDPOINT;
+        const ENDPOINT = process.env.NEXT_PUBLIC_CMS_HOST + process.env.NEXT_PUBLIC_CMS_PORTFOLIO_ENDPOINT;
         axios({
             url: ENDPOINT,
             method:'get',
@@ -39,14 +34,16 @@ export default function Dashboard({ children }) {
         })
     }, [appRouter])
     
-    if (isLoading) { return <></> }
-    if (!data) { return <></> }
+    if (isLoading) { return <></>}
+    if (!data) { return <></>}
+    console.log(">>> portfolio page data");
     console.log(data);
+
     return (
-        <SideBar activeTab='home' name={data.name} >
-            <QuickBuyContext.Provider value={{quickBuy, changeQuickBuy}}>
-                <DashHome data={data} />
-            </QuickBuyContext.Provider>
+        <SideBar activeTab='portfolio' name={data.name}>
+            <PortfolioView {...data}/>
         </SideBar>
-        );
-    }
+        )
+    };
+    
+    export default Portfolio;
