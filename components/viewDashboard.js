@@ -22,6 +22,7 @@ import StockTable from './StockTable';
 import SessionContext from '../contexts/SessionContext';
 import QuickBuyContext from '../contexts/QuickBuyContext';
 import axios from "axios";
+import QuickBuyForm from './quickBuyForm';
 
 
 export default function DashHome(props) {
@@ -80,7 +81,6 @@ export default function DashHome(props) {
                 <StockTable title="Market Summary" tableData={props.data.market} />
             </Flex>
 
-
             {/* column 3 */}
             { quickBuy !== null &&
                 <Flex
@@ -90,54 +90,9 @@ export default function DashHome(props) {
                     flexDir='column'
                     overflow={'auto'}
                 >
-                    <Flex justifyContent={'space-between'}>
-                        <Heading fontStyle={'light'} letterSpacing={'tight'}>Quick Buy</Heading>
-                        <IconButton icon={<MdClose/>} fontSize='xl' bgColor={'white'} borderRadius='50%' p={'3px'} onClick={() => changeQuickBuy(null)}/>
-                    </Flex>
-
-                    <Flex mt={'4'}>
-                        <Formik>
-                            <Form 
-                                h='200px'
-                                display='flex' 
-                                flexDir='row' 
-                                justifyContent='space-between'
-                            > 
-                                <FormControl> 
-                                    <FormLabel htmlFor='ticker' fontWeight={'bold'} letterSpacing='tight'>Ticker</FormLabel>
-                                    <Input id='ticker' backgroundColor='white' isDisabled value={(quickBuy === null) ? '' : quickBuy}/>
-                                </FormControl>
-                                <FormControl>
-                                    <FormLabel htmlFor='price' fontWeight='bold' letterSpacing={'tight'}>Price</FormLabel>
-                                    <NumberInput min={0}>
-                                        <NumberInputField id='price' backgroundColor={'white'} />
-                                    </NumberInput>
-                                </FormControl>
-                                <FormControl>
-                                    <FormLabel htmlFor='quantity' fontWeight={'bold'} letterSpacing='tight'>Quantity</FormLabel>
-                                    <NumberInput min={0}>
-                                        <NumberInputField id='price' backgroundColor={'white'} />
-                                    </NumberInput>
-                                </FormControl>
-                                <FormControl mt={'2'}>
-                                    <FormLabel htmlFor='orderType' fontWeight='bold' letterSpacing={'tight'}>Order type</FormLabel>
-                                    <RadioGroup>
-                                        <HStack spacing='20px'>
-                                            <Radio value='buy'>Buy</Radio>
-                                            <Radio value='sell'>Sell</Radio>
-                                        </HStack>
-                                    </RadioGroup>
-                                </FormControl> 
-                                <Button 
-                                    mt='4'
-                                    colorScheme={'teal'}
-                                    type='submit'
-                                >Submit Order</Button>
-                            </Form>
-                        </Formik>
-                    </Flex>
+                    <QuickBuyForm />
                 </Flex>
-        }
+            }
         </Flex>
     )
 }

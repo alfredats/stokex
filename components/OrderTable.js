@@ -41,24 +41,24 @@ export default function OrderTable(props) {
                         <Tbody>
                             { props.data.length >= SHOWMORE_SIZE && 
                                 props.data.slice(0,SHOWMORE_SIZE).map((row,index) => {
-                                    return <OrderTableRow key={index} {...row} />
+                                    return <OrderTableRow type={props.type} key={index} {...row} />
                             })}
                             { props.data.length < SHOWMORE_SIZE &&
                                 props.data.map((row,index) => {
-                                    return <OrderTableRow key={index} {...row} />
+                                    return <OrderTableRow type={props.type} key={index} {...row} />
                             })}
                             { props.data.length >= SHOWMORE_SIZE && showMore == 'show' &&
                                 props.data.slice(SHOWMORE_SIZE).map((row,index) => {
-                                    return <OrderTableRow key={index} {...row} />
+                                    return <OrderTableRow type={props.type} key={index} {...row} />
                             })}
                         </Tbody>
                     </Table>
                 </Flex>
                 <Flex align='center'>
-                    { props.data.length < SHOWMORE_SIZE && 
+                    { props.data.length <= SHOWMORE_SIZE && 
                         <Divider />
                     }
-                    { props.data.length >= SHOWMORE_SIZE &&
+                    { props.data.length > SHOWMORE_SIZE &&
                         <>
                         <Divider />
                         <Flex>

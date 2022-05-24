@@ -86,8 +86,8 @@ export default function PortfolioView(data) {
                 <Divider mt={'8'} />
 
                 {/* order info */}
-                <OrderTable title='Active Orders' data={data.orders.active} />
-                <OrderTable title='Completed Orders' data={data.orders.completed} />
+                <OrderTable title='Active Orders' type='active' data={data.orders.active} />
+                <OrderTable title='Completed Orders' type='completed' data={data.orders.completed} />
             </Flex>
             
 
